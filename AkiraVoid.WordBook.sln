@@ -10,8 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		AkiraVoid.WordBook.sln.DotSettings = AkiraVoid.WordBook.sln.DotSettings
-		CHANGELOG = CHANGELOG
 		LICENSE = LICENSE
+		CHANGELOG.md = CHANGELOG.md
 		README.md = README.md
 	EndProjectSection
 EndProject
