@@ -1,0 +1,83 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="AkiraVoid.WordBook.Pages.DictationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:AkiraVoid.WordBook.Controls"
+    xmlns:enums="using:AkiraVoid.WordBook.Enums"
+    xmlns:converters="using:AkiraVoid.WordBook.Converters"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <Page.Resources>
+        <converters:WordRangeStringConverter x:Key="WordRangeStringConverter" />
+    </Page.Resources>
+
+    <SplitView PaneBackground="Transparent" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="False" x:Name="Root">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveSideBar">
+                <VisualState x:Name="WideScreen">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="SmallScreen">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.DisplayMode" Value="Overlay" />
+                        <Setter Target="Root.PaneBackground"
+                                Value="{ThemeResource SettingsFlyoutBackgroundThemeBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <SplitView.Pane>
+            <StackPanel Padding="12">
+                <Grid Margin="0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition>*</ColumnDefinition>
+                        <ColumnDefinition>*</ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center">听写选项</TextBlock>
+                    <AppBarButton Grid.Column="1" x:Name="ClosePane" LabelPosition="Collapsed"
+                                  ToolTipService.ToolTip="关闭" Icon="Cancel" Click="OnPaneClose"
+                                  HorizontalAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <controls:UsableRadioButtons Header="选择单词范围" ItemsSource="{x:Bind _ranges, Mode=OneWay}"
+                                             x:Name="WordRangePicker" SelectionChanged="WordRangeChanged"
+                                             SelectedItem="{x:Bind enums:DictationWordRange.Random}"
+                                             ItemConverter="{StaticResource WordRangeStringConverter}" />
+                <NumberBox Margin="0,12" Header="选择单词个数" Minimum="2" Value="{x:Bind WordCount, Mode=TwoWay}" />
+            </StackPanel>
+        </SplitView.Pane>
+        <StackPanel>
+            <CommandBar DefaultLabelPosition="Right">
+                <AppBarButton Icon="Refresh" Label="重新开始" Click="OnReset" x:Name="RefreshButton" />
+                <AppBarButton x:Name="ReplayButton" Click="OnReplayAsync" Label="重听">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xef3b;" FontFamily="{StaticResource SymbolThemeFontFamily}" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="NextButton" Click="OnPlayNextAsync" Label="播放下一个">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xe893;" FontFamily="{StaticResource SymbolThemeFontFamily}" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Icon="Setting" Label="听写设置" Click="OnSettingClick" />
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
+            <StackPanel Orientation="Horizontal">
+                <controls:SpellChecker KeyUp="OnEnterPressedAsync" ErrorMessage="错误"
+                                       PassedMessage="正确" x:Name="Checker" MinWidth="100" />
+            </StackPanel>
+        </StackPanel>
+    </SplitView>
+</Page>

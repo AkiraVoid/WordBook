@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>AkiraVoid.WordBook</RootNamespace>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x86;x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+		<UseWinUI>true</UseWinUI>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<WindowsPackageType>None</WindowsPackageType>
+		<Title>AkiraVoid WordBook</Title>
+		<Authors>AkiraVoid</Authors>
+		<Copyright>© 2023-2024 AkiraVoid.</Copyright>
+		<PackageProjectUrl>https://word-book.akiravoid.com</PackageProjectUrl>
+		<AssemblyName>WordBook</AssemblyName>
+		<PackageId>AkiraVoid.WordBook</PackageId>
+		<Product>AkiraVoid.WordBook</Product>
+		<ApplicationIcon>Assets\favicon.ico</ApplicationIcon>
+		<PackageIcon>square-light.png</PackageIcon>
+		<UserSecretsId>2b4bdbd5-3249-498e-a133-1b4528a7fc7b</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
+
+	<!-- 
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+
+	<!-- 
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+	</PropertyGroup>
+	<ItemGroup>
+	  <EditorConfigFiles Remove="H:\11879\Documents\source\repos\AkiraVoid.WordBook\AkiraVoid.WordBook\.editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Controls\ExplanationEditor.xaml" />
+	  <None Remove="Controls\SpellChecker.xaml" />
+	  <None Remove="Controls\TeacherPicker.xaml" />
+	  <None Remove="Controls\UsableRadioButtons.xaml" />
+	  <None Remove="Controls\WordListItem.xaml" />
+	  <None Remove="Pages\DictationPage.xaml" />
+	  <None Remove="Pages\RootPage.xaml" />
+	  <None Remove="Pages\WordBookPage.xaml" />
+	  <None Remove="Pages\WordDetailPage.xaml" />
+	  <None Remove="Pages\WordEditionPage.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="H:\11879\Documents\source\repos\AkiraVoid.WordBook\AkiraVoid.WordBook\.editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Pages\DictationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Pages\WordBookPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Pages\RootPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Assets\Logo\square-light.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <Page Update="Pages\WordDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Controls\UsableRadioButtons.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Controls\SpellChecker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Controls\TeacherPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Controls\ExplanationEditor.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Controls\WordListItem.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Pages\WordEditionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+</Project>

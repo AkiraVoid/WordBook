@@ -1,0 +1,25 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<UserControl
+    x:Class="AkiraVoid.WordBook.Controls.UsableRadioButtons"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:AkiraVoid.WordBook.ViewModels"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Name="DefaultTemplate" x:DataType="viewModels:RadioButtonItem">
+            <RadioButton Content="{x:Bind DisplayContent}" Tag="{x:Bind OriginalItem}" Checked="OnSelect"
+                         IsChecked="{x:Bind IsChecked, Mode=TwoWay}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="{x:Bind Orientation, Mode=OneWay}">
+        <ContentPresenter Content="{x:Bind Header, Mode=OneWay}" Margin="0,0,0,12" />
+        <ItemsRepeater ItemsSource="{x:Bind _radioButtons, Mode=OneWay}"
+                       ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}" />
+    </StackPanel>
+</UserControl>

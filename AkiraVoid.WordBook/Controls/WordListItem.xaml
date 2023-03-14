@@ -1,0 +1,35 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<UserControl
+    x:Class="AkiraVoid.WordBook.Controls.WordListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="WordItem"
+    Loaded="OnLoaded">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition>*</ColumnDefinition>
+            <ColumnDefinition>*</ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock x:Name="WordSpell" Text="{x:Bind Word.Spell, Mode=OneWay}" VerticalAlignment="Center"
+                       Style="{StaticResource BodyTextBlockStyle}" />
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                       Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"
+                       Margin="8,0,0,0"
+                       Text="{x:Bind Word.Language, Mode=OneWay}" VerticalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0"
+                    HorizontalAlignment="Right">
+            <AppBarToggleButton LabelPosition="Collapsed" x:Name="MemorizedToggleButton" Click="OnMemorizedToggled"
+                                ToolTipService.ToolTip="Placeholder" />
+            <AppBarToggleButton LabelPosition="Collapsed" x:Name="ImportantToggleButton" Click="OnImportantToggled"
+                                ToolTipService.ToolTip="Placeholder" Margin="4,0,0,0" />
+        </StackPanel>
+    </Grid>
+</UserControl>

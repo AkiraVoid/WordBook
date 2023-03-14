@@ -1,0 +1,68 @@
+﻿<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="AkiraVoid.WordBook.Pages.WordDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AkiraVoid.WordBook.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:AkiraVoid.WordBook.Models"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ExplanationGroupTemplate" x:DataType="local:ExplanationGroup">
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition>Auto</ColumnDefinition>
+                    <ColumnDefinition>*</ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                           Text="{Binding Path=Key}" TextWrapping="Wrap" />
+                <ItemsRepeater Grid.Column="1" ItemsSource="{Binding}"
+                               ItemTemplate="{StaticResource ExplanationTemplate}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ExplanationTemplate" x:DataType="models:WordExplanation">
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition>Auto</ColumnDefinition>
+                    <ColumnDefinition>*</ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition>Auto</RowDefinition>
+                    <RowDefinition>Auto</RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="8,0,4,0">•</TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind Explanation, Mode=OneWay}" TextWrapping="Wrap" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind Translation, Mode=OneWay}" TextWrapping="Wrap" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <StackPanel MaxWidth="500" Padding="24">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition>*</ColumnDefinition>
+                <ColumnDefinition>*</ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center"
+                       Text="{x:Bind Word.Spell, Mode=OneWay}" TextWrapping="Wrap" />
+            <AppBarToggleButton Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                LabelPosition="Collapsed"
+                                ToolTipService.ToolTip="{x:Bind ImportantButtonToolTip,Mode=OneWay}"
+                                Icon="{x:Bind ImportantButtonIcon,Mode=OneWay}" Click="OnSetImportant"
+                                IsChecked="{x:Bind Word.IsImportant, Mode=OneWay}" />
+        </Grid>
+        <TextBlock Text="{x:Bind Word.Pronunciation, Mode=OneWay}" TextWrapping="Wrap" Margin="0,0,0,8" />
+        <ItemsRepeater ItemsSource="{x:Bind _groupedExplanations, Mode=OneWay}"
+                       ItemTemplate="{StaticResource ExplanationGroupTemplate}" Margin="0,0,0,8">
+        </ItemsRepeater>
+        <ToggleButton HorizontalAlignment="Right" Content="{x:Bind MemorizeButtonContent,Mode=OneWay}"
+                      Click="OnMemorize"
+                      IsChecked="{x:Bind Word.HasMemorized,Mode=OneWay}" />
+    </StackPanel>
+</Page>

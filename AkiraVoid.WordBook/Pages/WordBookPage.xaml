@@ -1,0 +1,96 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="AkiraVoid.WordBook.Pages.WordBookPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:AkiraVoid.WordBook.Models"
+    xmlns:controls="using:AkiraVoid.WordBook.Controls"
+    xmlns:utilities="using:AkiraVoid.WordBook.Utilities"
+    mc:Ignorable="d"
+    Background="Transparent"
+    x:Name="Page">
+
+    <SplitView x:Name="PageRoot" DisplayMode="Inline" PanePlacement="Right"
+               PaneBackground="Transparent">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveSideBar">
+                <VisualState x:Name="WideScreen">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="SmallScreen">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PageRoot.DisplayMode" Value="Overlay" />
+                        <Setter Target="PageRoot.PaneBackground"
+                                Value="{ThemeResource SettingsFlyoutBackgroundThemeBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition>Auto</RowDefinition>
+                <RowDefinition>Auto</RowDefinition>
+                <RowDefinition>*</RowDefinition>
+            </Grid.RowDefinitions>
+            <CommandBar Background="Transparent" DefaultLabelPosition="Right" Content="{x:Bind SelectedWords}"
+                        VerticalContentAlignment="Center">
+                <AppBarButton Icon="Add" Label="添加" x:Name="AddWordButton" Click="OnAdditionPageOpen" />
+                <AppBarButton Icon="Edit" Label="编辑" x:Name="EditWordButton" Click="OnEditionPageOpen" />
+                <AppBarButton Icon="Delete" Label="删除" x:Name="DeleteWordButton" Click="OnDeleted" />
+                <AppBarButton Label="查看更多" x:Name="ReadMoreButton" Click="OnReadMoreRequested">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xe736;" FontFamily="{StaticResource SymbolThemeFontFamily}" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <CommandBar.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center">
+                                已选中
+                                <Run Text="{Binding ElementName=Page, Path=SelectedWords.Count}" /> 项
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </CommandBar.ContentTemplate>
+            </CommandBar>
+            <ListView Grid.Row="2" x:Name="WordList" ItemsSource="{x:Bind utilities:Global.WordList}"
+                      SelectionMode="Multiple" SelectionChanged="OnWordListSelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Word">
+                        <controls:WordListItem Word="{x:Bind}" ImportantToggle="OnImportantToggled"
+                                               MemorizedToggle="OnMemorizedToggle" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <SplitView.Pane>
+            <Grid Padding="24" x:Name="PaneContainer">
+                <Grid.RowDefinitions>
+                    <RowDefinition>Auto</RowDefinition>
+                    <RowDefinition>*</RowDefinition>
+                </Grid.RowDefinitions>
+
+                <RelativePanel Grid.Row="0">
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" x:Name="PaneHeader"
+                               RelativePanel.AlignVerticalCenterWith="CloseButton">
+                        添加或编辑词汇
+                    </TextBlock>
+                    <AppBarButton x:Name="CloseButton" Icon="Cancel" LabelPosition="Collapsed"
+                                  RelativePanel.AlignRightWithPanel="True" Click="OnPaneClose" />
+                </RelativePanel>
+                <Frame Grid.Row="1" x:Name="Actions" Background="Transparent" />
+            </Grid>
+        </SplitView.Pane>
+    </SplitView>
+
+</Page>

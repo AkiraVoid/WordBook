@@ -1,0 +1,42 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<UserControl
+    x:Class="AkiraVoid.WordBook.Controls.SpellChecker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="GreenBrush" Color="Green" />
+        <SolidColorBrush x:Key="RedBrush" Color="Red" />
+    </UserControl.Resources>
+
+    <StackPanel x:Name="Root">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ApplyColors">
+                <VisualState x:Name="UnvalidatedState" />
+                <VisualState x:Name="ErrorState">
+                    <VisualState.Setters>
+                        <Setter Target="Spell.BorderBrush" Value="{StaticResource RedBrush}" />
+                        <Setter Target="DescriptionPresenter.Foreground" Value="{StaticResource RedBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PassedState">
+                    <VisualState.Setters>
+                        <Setter Target="Spell.BorderBrush" Value="{StaticResource GreenBrush}" />
+                        <Setter Target="DescriptionPresenter.Foreground" Value="{StaticResource GreenBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <TextBox x:Name="Spell" IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
+            <TextBox.Description>
+                <ContentPresenter x:Name="DescriptionPresenter" Foreground="{ThemeResource SystemColorGrayTextColor}"
+                                  FontSize="{StaticResource CaptionTextFontSize}" />
+            </TextBox.Description>
+        </TextBox>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,24 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:AkiraVoid.WordBook.Controls">
+
+    <Style TargetType="controls:SettingGroup">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:SettingGroup">
+                    <Grid RowSpacing="{StaticResource SettingGroupGridRowSpacing}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition>Auto</RowDefinition>
+                            <RowDefinition>*</RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="{TemplateBinding Header}" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

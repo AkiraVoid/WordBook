@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AkiraVoid.WordBook (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AkiraVoid.WordBook (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
